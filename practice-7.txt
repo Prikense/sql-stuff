@@ -1,0 +1,57 @@
+-Data Cleaning
+    -Eliminating or cleaning the table from incomplete data, duplicates or
+     wrong data.
+
+-Find Duplicates
+SELECT company,
+       street,
+       city,
+       st,
+       count(*) AS address_count
+FROM meat_poultry_egg_establishments
+GROUP BY company, street, city, st
+HAVING count(*) > 1
+ORDER BY company, street, city, st;
+
+-Find Missing data
+SELECT establishment_number,
+       company,
+       city,
+       st,
+       zip
+FROM meat_poultry_egg_establishments
+WHERE st IS NULL;
+
+-Filter by contraints
+SELECT st,
+       count(*) AS st_count
+FROM meat_poultry_egg_establishments
+WHERE length(zip) < 5
+GROUP BY st
+ORDER BY st ASC;
+
+-Fixing the data
+    -We make a backup table
+Create table backupTable as Select * from originalTable;
+    -Then, we can work on either table, it is reccomended to add new columns
+     and work there.
+
+    -We delete the duplicate values
+delete from meat_poultry_egg_establishments
+where establishment_number not in (
+    Select max(establishment_number)
+    from meat_poultry_egg_establishments
+    group by company, street, city, st
+);
+
+
+-Transactions
+    -Transactions are operations that can be rolled back when failed, so we can
+     mantain consitency within the db.
+
+START TRANSACTION
+
+UPDATE meat_pultry_egg_establishments SET company = 'other Company';
+
+ROLLBACK;
+COMMIT;
