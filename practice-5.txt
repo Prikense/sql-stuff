@@ -1,0 +1,11 @@
+-Constraints in SQL
+    -Primary Keys
+        -Primary keys are unique identifiers for a database, as such they should
+         be unique and not null.
+    -Foreing Keys
+        -Foreign keys are used to relate data between 2 or more databases,
+         usually making a column on a table be the primary key of another.
+    -Constraints
+        -In sql we can use constraints to specify the data type of a column,
+         we can use CHECK and CHECK IN to control the data that comes in,
+         and also to validate the data.
